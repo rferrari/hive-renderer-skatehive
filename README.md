@@ -1,3 +1,35 @@
+All test passed, but need more test in real case scenarios. but the goal here was to remove server side dependencies so we can test it client side render in react no using the Browser unpkg version.
+
+Hope it works fine!!!
+
+import { DefaultRenderer } from "../../lib/hive/hive-renderer";
+const renderer = new DefaultRenderer({
+    baseUrl: "http://localhost",
+    breaks: true,
+    skipSanitization: false,
+    allowInsecureScriptTags: false,
+    addNofollowToLinks: true,
+    doNotShowImages: false,
+    assetsWidth: 640,
+    assetsHeight: 480,
+    imageProxyFn: (url: string) => url,
+    usertagUrlFn: (account: string) => "/@" + account,
+    hashtagUrlFn: (hashtag: string) => "/trending/" + hashtag,
+    isLinkSafeFn: (url: string) => true,
+    addExternalCssClassToMatchingLinksFn: (url: string) => true,
+    ipfsPrefix: "https://ipfs.io/ipfs/" // IPFS gateway to display ipfs images
+});
+
+const Comment = ({ comment: Comment ) => {
+    const safeHtmlStr = renderer.render(comment.body);
+    
+    return (<div dangerouslySetInnerHTML={{__html: safeHtmlStr,}}/>)
+}
+
+---
+
+Original...
+
 # @hiveio/content-renderer
 
 [![npm](https://img.shields.io/npm/v/@hiveio/content-renderer.svg?style=flat-square)](https://www.npmjs.com/package/@hiveio/content-renderer) [![](https://img.badgesize.io/https:/unpkg.com/@hiveio/content-renderer@1.0.2/dist/browser/hive-content-renderer.min.js.svg?compression=gzip)](https://www.npmjs.com/package/@hiveio/content-renderer) [![License](https://img.shields.io/github/license/wise-team/steem-content-renderer.svg?style=flat-square)](https://github.com/wise-team/steem-content-renderer/blob/master/LICENSE) [![](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
