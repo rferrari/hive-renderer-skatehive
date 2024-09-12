@@ -4,7 +4,7 @@
 
 import * as xmldom from '@xmldom/xmldom';
 import ChainedError from 'typescript-chained-error';
-import {Log} from '../../../Log';
+// import {Log} from '../../../Log';
 import {LinkSanitizer} from '../../../security/LinkSanitizer';
 import {Localization, LocalizationOptions} from '../Localization';
 import {AssetEmbedder, AssetEmbedderOptions} from './AssetEmbedder';
@@ -226,7 +226,7 @@ export class HtmlDOMParser {
                 return newChild;
             }
         } catch (error) {
-            Log.log().error(error);
+            // Log.log().error(error);
         }
     }
 

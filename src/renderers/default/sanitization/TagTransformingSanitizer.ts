@@ -1,9 +1,9 @@
 /**
  * This file is based on https://github.com/openhive-network/condenser/blob/master/src/app/utils/SanitizeConfig.js
  */
-import ow from 'ow';
+//import ow from 'ow';
 import sanitize from 'sanitize-html';
-import {Log} from '../../../Log';
+// import {Log} from '../../../Log';
 import {Localization, LocalizationOptions} from '../Localization';
 import {StaticConfig} from '../StaticConfig';
 
@@ -74,7 +74,7 @@ export class TagTransformingSanitizer {
                             return iframeToBeReturned;
                         }
                     }
-                    Log.log().warn('Blocked, did not match iframe "src" white list urls:', tagName, attributes);
+                    // Log.log().warn('Blocked, did not match iframe "src" white list urls:', tagName, attributes);
                     this.sanitizationErrors.push('Invalid iframe URL: ' + srcAtty);
 
                     const retTag: sanitize.Tag = {tagName: 'div', text: `(Unsupported ${srcAtty})`, attribs: {}};
@@ -93,7 +93,7 @@ export class TagTransformingSanitizer {
                     const {src, alt} = attribs;
                     // eslint-disable-next-line security/detect-unsafe-regex
                     if (!/^(https?:)?\/\//i.test(src)) {
-                        Log.log().warn('Blocked, image tag src does not appear to be a url', tagName, attribs);
+                        // Log.log().warn('Blocked, image tag src does not appear to be a url', tagName, attribs);
                         this.sanitizationErrors.push('An image in this post did not save properly.');
                         const retTagOnNoUrl: sanitize.Tag = {
                             tagName: 'img',
@@ -163,18 +163,47 @@ export class TagTransformingSanitizer {
             }
         };
     }
-    private validate(o: TagsSanitizerOptions) {
-        ow(o, 'TagsSanitizerOptions', ow.object);
-        ow(o.iframeWidth, 'TagsSanitizerOptions.iframeWidth', ow.number.integer.positive);
-        ow(o.iframeHeight, 'TagsSanitizerOptions.iframeHeight', ow.number.integer.positive);
-        ow(o.addNofollowToLinks, 'TagsSanitizerOptions.addNofollowToLinks', ow.boolean);
-        ow(o.addTargetBlankToLinks, 'TagsSanitizerOptions.addTargetBlankToLinks', ow.optional.boolean);
-        ow(o.cssClassForInternalLinks, 'TagsSanitizerOptions.cssClassForInternalLinks', ow.optional.string);
-        ow(o.cssClassForExternalLinks, 'TagsSanitizerOptions.cssClassForExternalLinks', ow.optional.string);
-        ow(o.noImage, 'TagsSanitizerOptions.noImage', ow.boolean);
-        ow(o.isLinkSafeFn, 'TagsSanitizerOptions.isLinkSafeFn', ow.function);
-        ow(o.addExternalCssClassToMatchingLinksFn, 'TagsSanitizerOptions.addExternalCssClassToMatchingLinksFn', ow.function);
+private validate(o: TagsSanitizerOptions) {
+    if (typeof o !== 'object') {
+        throw new Error('TagsSanitizerOptions should be an object');
     }
+
+    if (o.iframeWidth && typeof o.iframeWidth !== 'number') {
+        throw new Error('TagsSanitizerOptions.iframeWidth should be a positive integer');
+    }
+
+    if (o.iframeHeight && typeof o.iframeHeight !== 'number') {
+        throw new Error('TagsSanitizerOptions.iframeHeight should be a positive integer');
+    }
+
+    if (o.addNofollowToLinks && typeof o.addNofollowToLinks !== 'boolean') {
+        throw new Error('TagsSanitizerOptions.addNofollowToLinks should be a boolean');
+    }
+
+    if (o.addTargetBlankToLinks && typeof o.addTargetBlankToLinks !== 'boolean') {
+        throw new Error('TagsSanitizerOptions.addTargetBlankToLinks should be a boolean');
+    }
+
+    if (o.cssClassForInternalLinks && typeof o.cssClassForInternalLinks !== 'string') {
+        throw new Error('TagsSanitizerOptions.cssClassForInternalLinks should be a string');
+    }
+
+    if (o.cssClassForExternalLinks && typeof o.cssClassForExternalLinks !== 'string') {
+        throw new Error('TagsSanitizerOptions.cssClassForExternalLinks should be a string');
+    }
+
+    if (o.noImage && typeof o.noImage !== 'boolean') {
+        throw new Error('TagsSanitizerOptions.noImage should be a boolean');
+    }
+
+    if (o.isLinkSafeFn && typeof o.isLinkSafeFn !== 'function') {
+        throw new Error('TagsSanitizerOptions.isLinkSafeFn should be a function');
+    }
+
+    if (o.addExternalCssClassToMatchingLinksFn && typeof o.addExternalCssClassToMatchingLinksFn !== 'function') {
+        throw new Error('TagsSanitizerOptions.addExternalCssClassToMatchingLinksFn should be a function');
+    }
+}
 }
 export interface TagsSanitizerOptions {
     iframeWidth: number;

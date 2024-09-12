@@ -1,4 +1,4 @@
-import {Log} from '../../../../Log';
+// import {Log} from '../../../../Log';
 import {AbstractEmbedder, EmbedMetadata} from './AbstractEmbedder';
 
 interface SpotifyMetadata {
@@ -41,7 +41,7 @@ export class SpotifyEmbedder extends AbstractEmbedder {
                 image: metadata.canonical
             };
         } catch (error) {
-            Log.log().error(error);
+            // Log.log().error(error);
         }
         return undefined;
     }

@@ -1,4 +1,4 @@
-import {Log} from '../../../../Log';
+// import {Log} from '../../../../Log';
 import {AssetEmbedderOptions} from '../AssetEmbedder';
 import linksRe from '../utils/Links';
 import {AbstractEmbedder, EmbedMetadata} from './AbstractEmbedder';
@@ -24,7 +24,7 @@ export class TwitchEmbedder extends AbstractEmbedder {
                 ...twitch
             };
         } catch (error) {
-            Log.log().error(error);
+            // Log.log().error(error);
         }
         return undefined;
     }

@@ -1,4 +1,4 @@
-import ow from 'ow';
+//import ow from 'ow';
 import {Remarkable} from 'remarkable';
 import {SecurityChecker} from '../../security/SecurityChecker';
 import {HtmlDOMParser} from './embedder/HtmlDOMParser';
@@ -47,10 +47,12 @@ export class DefaultRenderer {
         );
     }
 
-    public render(input: string): string {
-        ow(input, 'input', ow.string.nonEmpty);
-        return this.doRender(input);
+public render(input: string): string {
+    if (!input) {
+        throw new Error('Input is required and cannot be empty');
     }
+    return this.doRender(input);
+}
 
     private doRender(text: string): string {
         text = PreliminarySanitizer.preliminarySanitize(text);
@@ -107,26 +109,41 @@ export class DefaultRenderer {
         return this.tagTransformingSanitizer.sanitize(text);
     }
 
-    private validate(o: RendererOptions) {
-        ow(o, 'RendererOptions', ow.object);
-        ow(o.baseUrl, 'RendererOptions.baseUrl', ow.string.nonEmpty);
-        ow(o.breaks, 'RendererOptions.breaks', ow.boolean);
-        ow(o.skipSanitization, 'RendererOptions.skipSanitization', ow.boolean);
-        ow(o.addNofollowToLinks, 'RendererOptions.addNofollowToLinks', ow.boolean);
-        ow(o.addTargetBlankToLinks, 'RendererOptions.addTargetBlankToLinks', ow.optional.boolean);
-        ow(o.cssClassForInternalLinks, 'RendererOptions.cssClassForInternalLinks', ow.optional.string);
-        ow(o.cssClassForExternalLinks, 'RendererOptions.cssClassForExternalLinks', ow.optional.string);
-        ow(o.doNotShowImages, 'RendererOptions.doNotShowImages', ow.boolean);
-        ow(o.ipfsPrefix, 'RendererOptions.ipfsPrefix', ow.optional.string);
-        ow(o.assetsWidth, 'RendererOptions.assetsWidth', ow.number.integer.positive);
-        ow(o.assetsHeight, 'RendererOptions.assetsHeight', ow.number.integer.positive);
-        ow(o.imageProxyFn, 'RendererOptions.imageProxyFn', ow.function);
-        ow(o.hashtagUrlFn, 'RendererOptions.hashtagUrlFn', ow.function);
-        ow(o.usertagUrlFn, 'RendererOptions.usertagUrlFn', ow.function);
-        ow(o.isLinkSafeFn, 'RendererOptions.isLinkSafeFn', ow.function);
-        ow(o.addExternalCssClassToMatchingLinksFn, 'RendererOptions.addExternalCssClassToMatchingLinksFn', ow.function);
+    private isValidObject(obj: unknown): obj is Record<string, unknown> {
+        if (typeof obj !== 'object') return false;
+        if (obj === null) return false;
+
+        return true;
+    }
+
+    private isValidString(str: unknown): str is string {
+        return typeof str === 'string' && str !== '';
+    }
+
+    private validate(options: RendererOptions): boolean {
+        if (!this.isValidObject(options)) return false;
+
+        if (!this.isValidString(options.baseUrl)) return false;
+        if (options.breaks !== undefined && typeof options.breaks !== 'boolean') return false;
+        if (options.skipSanitization !== undefined && typeof options.skipSanitization !== 'boolean') return false;
+        if (options.addNofollowToLinks !== undefined && typeof options.addNofollowToLinks !== 'boolean') return false;
+        if (options.addTargetBlankToLinks !== undefined && typeof options.addTargetBlankToLinks === 'boolean') return false;
+        if (options.cssClassForInternalLinks !== undefined && (typeof options.cssClassForInternalLinks !== 'string')) return false;
+        if (options.cssClassForExternalLinks !== undefined && (typeof options.cssClassForExternalLinks !== 'string')) return false;
+        if (options.doNotShowImages !== undefined && typeof options.doNotShowImages !== 'boolean') return false;
+        if (options.ipfsPrefix !== undefined && typeof options.ipfsPrefix !== 'string') return false;
+        if (options.assetsWidth !== undefined && typeof options.assetsWidth !== 'number' || options.assetsWidth <= 0) return false;
+        if (options.assetsHeight !== undefined && typeof options.assetsHeight !== 'number' || options.assetsHeight <= 0) return false;
+        if (options.imageProxyFn !== undefined && typeof options.imageProxyFn !== 'function') return false;
+        if (options.hashtagUrlFn !== undefined && typeof options.hashtagUrlFn !== 'function') return false;
+        if (options.usertagUrlFn !== undefined && typeof options.usertagUrlFn !== 'function') return false;
+        if (options.isLinkSafeFn !== undefined && typeof options.isLinkSafeFn !== 'function') return false;
+        if (options.addExternalCssClassToMatchingLinksFn !== undefined && typeof options.addExternalCssClassToMatchingLinksFn !== 'function') return false;
+
+        return true;
     }
 }
+
 export interface RendererOptions {
     baseUrl: string;
     breaks: boolean;

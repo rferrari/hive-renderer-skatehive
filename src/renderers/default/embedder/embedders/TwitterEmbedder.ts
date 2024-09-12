@@ -1,4 +1,4 @@
-import {Log} from '../../../../Log';
+// import {Log} from '../../../../Log';
 import {StaticConfig} from '../../StaticConfig';
 import {AbstractEmbedder, EmbedMetadata} from './AbstractEmbedder';
 
@@ -19,7 +19,7 @@ export class TwitterEmbedder extends AbstractEmbedder {
                 url: metadata.url
             };
         } catch (error) {
-            Log.log().error(error);
+            // Log.log().error(error);
         }
         return undefined;
     }

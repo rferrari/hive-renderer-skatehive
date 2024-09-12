@@ -1,4 +1,4 @@
-import ow from 'ow';
+// import ow from 'ow';
 import {LocalizationOptions} from '../Localization';
 import {AbstractEmbedder} from './embedders/AbstractEmbedder';
 import {SpotifyEmbedder} from './embedders/SpotifyEmbedder';
@@ -28,16 +28,10 @@ export class AssetEmbedder {
         ];
     }
 
-    public static validate(o: AssetEmbedderOptions) {
-        ow(o, 'AssetEmbedderOptions', ow.object);
-        ow(o.ipfsPrefix, 'AssetEmbedderOptions.ipfsPrefix', ow.optional.string);
-        ow(o.width, 'AssetEmbedderOptions.width', ow.number.integer.positive);
-        ow(o.height, 'AssetEmbedderOptions.height', ow.number.integer.positive);
-        ow(o.hideImages, 'AssetEmbedderOptions.hideImages', ow.boolean);
-        ow(o.baseUrl, 'AssetEmbedderOptions.baseUrl', ow.string.nonEmpty);
-        ow(o.imageProxyFn, 'AssetEmbedderOptions.imageProxyFn', ow.function);
-        ow(o.hashtagUrlFn, 'AssetEmbedderOptions.hashtagUrlFn', ow.function);
-        ow(o.usertagUrlFn, 'AssetEmbedderOptions.usertagUrlFn', ow.function);
+    static validate = (options: AssetEmbedderOptions) => {
+        if (!options || typeof options !== 'object') {
+            throw new Error('AssetEmbedderOptions is required and must be an object');
+        }
     }
 
     public insertAssets(input: string): string {

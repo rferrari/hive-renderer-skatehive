@@ -1,15 +1,35 @@
-import ow from 'ow';
+// import ow from 'ow';
 
 export class Localization {
-    public static validate(o: LocalizationOptions) {
-        ow(o, 'LocalizationOptions', ow.object);
-        ow(o.phishingWarning, 'LocalizationOptions.phishingWarning', ow.string.nonEmpty);
-        ow(o.externalLink, 'LocalizationOptions.externalLink', ow.string.nonEmpty);
-        ow(o.noImage, 'LocalizationOptions.noImage', ow.string.nonEmpty);
-        ow(o.accountNameWrongLength, 'LocalizationOptions.accountNameWrongLength', ow.string.nonEmpty);
-        ow(o.accountNameBadActor, 'LocalizationOptions.accountNameBadActor', ow.string.nonEmpty);
-        ow(o.accountNameWrongSegment, 'LocalizationOptions.accountNameWrongSegment', ow.string.nonEmpty);
-    }
+    public static validate(options: LocalizationOptions) {
+        if (!options || typeof options !== 'object') {
+          throw new Error('LocalizationOptions should be an object');
+        }
+      
+        if (!options.phishingWarning || typeof options.phishingWarning !== 'string' || options.phishingWarning.trim().length === 0) {
+          throw new Error('phishingWarning should be a non-empty string');
+        }
+      
+        if (!options.externalLink || typeof options.externalLink !== 'string' || options.externalLink.trim().length === 0) {
+          throw new Error('externalLink should be a non-empty string');
+        }
+      
+        if (!options.noImage || typeof options.noImage !== 'string' || options.noImage.trim().length === 0) {
+          throw new Error('noImage should be a non-empty string');
+        }
+      
+        if (!options.accountNameWrongLength || typeof options.accountNameWrongLength !== 'string' || options.accountNameWrongLength.trim().length === 0) {
+          throw new Error('accountNameWrongLength should be a non-empty string');
+        }
+      
+        if (!options.accountNameBadActor || typeof options.accountNameBadActor !== 'string' || options.accountNameBadActor.trim().length === 0) {
+          throw new Error('accountNameBadActor should be a non-empty string');
+        }
+      
+        if (!options.accountNameWrongSegment || typeof options.accountNameWrongSegment !== 'string' || options.accountNameWrongSegment.trim().length === 0) {
+          throw new Error('accountNameWrongSegment should be a non-empty string');
+        }
+      };
 
     public static DEFAULT: LocalizationOptions = {
         phishingWarning: 'Link expanded to plain text; beware of a potential phishing attempt',

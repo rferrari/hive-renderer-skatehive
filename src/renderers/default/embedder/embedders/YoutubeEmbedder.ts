@@ -1,4 +1,4 @@
-import {Log} from '../../../../Log';
+// import {Log} from '../../../../Log';
 import {AbstractEmbedder, EmbedMetadata} from './AbstractEmbedder';
 
 export class YoutubeEmbedder extends AbstractEmbedder {
@@ -44,7 +44,7 @@ export class YoutubeEmbedder extends AbstractEmbedder {
                 image: metadata.thumbnail
             };
         } catch (error) {
-            Log.log().error(error);
+            // Log.log().error(error);
         }
         return undefined;
     }

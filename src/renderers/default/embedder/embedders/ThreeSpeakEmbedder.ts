@@ -1,4 +1,4 @@
-import {Log} from '../../../../Log';
+// import {Log} from '../../../../Log';
 import {AbstractEmbedder, EmbedMetadata} from './AbstractEmbedder';
 
 export class ThreeSpeakEmbedder extends AbstractEmbedder {
@@ -19,7 +19,7 @@ export class ThreeSpeakEmbedder extends AbstractEmbedder {
                 };
             }
         } catch (error) {
-            Log.log().error(error);
+            // Log.log().error(error);
         }
         return undefined;
     }

@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import {JSDOM} from 'jsdom';
 import 'mocha';
-import {Log} from '../../Log';
+// import {Log} from '../../Log';
 import {DefaultRenderer, RendererOptions} from './DefaultRenderer';
 
 describe('DefaultRender', () => {
@@ -205,8 +205,8 @@ describe('DefaultRender', () => {
             const renderedNode = JSDOM.fragment(rendered);
             const comparisonNode = JSDOM.fragment(test.expected);
 
-            Log.log().debug('rendered', rendered);
-            Log.log().debug('expected', test.expected);
+            console.debug('rendered', rendered);
+            console.debug('expected', test.expected);
 
             expect(renderedNode.isEqualNode(comparisonNode)).to.be.equal(true);
         })
